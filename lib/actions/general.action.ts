@@ -1,3 +1,5 @@
+"use server";
+
 import {db } from "@/firebase/admin";
 
 export async function getInterviewByUserID(userID:string):Promise<Interview[]|null>{

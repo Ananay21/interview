@@ -1,3 +1,5 @@
+"use server";
+
 import {generateText} from "ai";
 import {google} from "@ai-sdk/google";
 import { getRandomInterviewCover } from "@/lib/utils";
@@ -8,7 +10,7 @@ export async function GET() {
 }
 
 export async function POST(request:Request){
-    const {type,role,level,techstack,amount,userId} = await request.json();   
+    const {type,role,level,techstack,amount,userid} = await request.json();   
     try {
         const {text:questions}=await generateText(
             {
@@ -35,7 +37,7 @@ export async function POST(request:Request){
             level,
             techstack:techstack.split(","),
             questions:JSON.parse(questions),
-            userId:userId,
+            userId:userid,
             finalized:true,
             coverImage:getRandomInterviewCover(),
             createdAt:new Date().toISOString()
