@@ -23,4 +23,4 @@ export async function getLatestInterviews(params:GetLatestInterviewsParams):Prom
 export async function getInterviewByID(id:string):Promise<Interview|null>{
     const interview=await db.collection('interviews').doc(id).get();
     return interview.data() as Interview|null;
-}
+} 
