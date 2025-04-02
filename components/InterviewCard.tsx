@@ -5,10 +5,10 @@ import Image from 'next/image';
 import { Button } from './ui/button';
 import Link from 'next/link';
 import DisplayTechItems from './DisplayTechItems';
+import { getFeedbackbyInterviewId } from '@/lib/actions/general.action';
 
-
-const InterviewCard = ({id,userId,role,type,techstack,createdAt}:InterviewCardProps) => {
-    const feedback=null as Feedback|null;
+const InterviewCard = async ({id,userId,role,type,techstack,createdAt}:InterviewCardProps) => {
+    const feedback=await getFeedbackbyInterviewId({interviewId:id,userId:userId});
     const normalizedType=/mix/gi.test(type)?"Mixed":type;
     const formattedDate=dayjs(feedback?.createdAt||createdAt||Date.now()).format("MMM D, YYYY");
   return (
@@ -33,7 +33,7 @@ const InterviewCard = ({id,userId,role,type,techstack,createdAt}:InterviewCardPr
 
                     <div className='flex flex-row gap-2 items-center'>
                         <Image src="/star.svg" alt="star" width={22} height={22}/>
-                        <p>{feedback?.totalScore||"---/100"}</p>
+                        <p>{feedback?.totalScore||"---"}/100</p>
                     </div>
                 </div>
 

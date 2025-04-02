@@ -7,6 +7,7 @@ import { cn } from '@/lib/utils';
 import { useRouter } from 'next/navigation';
 import { vapi } from '@/lib/vapi.sdk';
 import { interviewer } from '@/constants';
+import { createFeedback } from '@/lib/actions/general.action';
 
 enum callStatus{
     INACTIVE="INACTIVE",
@@ -21,6 +22,7 @@ interface SavedMessage{
 }
 
 const Agent = ({userName,userId,interviewId,questions,type}:AgentProps) => {
+    console.log(userId);
     const router=useRouter();
     const [isSpeaking,setIsSpeaking]=useState(false);
     const [currentCallStatus, setCurrentCallStatus] = useState<callStatus>(callStatus.INACTIVE);
@@ -61,11 +63,10 @@ const Agent = ({userName,userId,interviewId,questions,type}:AgentProps) => {
 
     const handleGenerateFeedback=async (messages:SavedMessage[])=>{
         console.log("generate feedback");
-        const {success,id}={success:true,id:interviewId};
-        console.log(id);
+        const {success,feedbackId}=await createFeedback({interviewId:interviewId!,userId:userId!,transcript:messages});
         
-        if(success && id){
-            router.push(`/interview/${id}/feedback`);
+        if(success && feedbackId){
+            router.push(`/interview/${feedbackId}/feedback`);
         }
         else{
             console.log(`Error saving feedback`);
