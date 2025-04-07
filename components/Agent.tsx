@@ -22,7 +22,6 @@ interface SavedMessage{
 }
 
 const Agent = ({userName,userId,interviewId,questions,type}:AgentProps) => {
-    console.log(userId);
     const router=useRouter();
     const [isSpeaking,setIsSpeaking]=useState(false);
     const [currentCallStatus, setCurrentCallStatus] = useState<callStatus>(callStatus.INACTIVE);
